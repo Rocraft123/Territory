@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "territory",
+  "version": "${version}",
+  "name": "Territory",
+  "description": "Claim & Consequence A lightweight land-claim mod with visible, immersive consequences, not just invisible protection.",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/territory/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.rocraft.client.territoryDataGenerator"
+    ],
+    "client": [
+      "com.rocraft.client.territoryClient"
+    ],
+    "main": [
+      "com.rocraft.Territory"
+    ]
+  },
+  "mixins": [
+    "territory.mixins.json",
+    {
+      "config": "territory.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
