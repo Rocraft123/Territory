@@ -4,6 +4,7 @@ import com.Block.BlockEntity.BlockEntities.ClaimAnchorBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -34,10 +35,15 @@ public class ClaimAnchorBlock extends BaseEntityBlock {
     @Override
     protected @NonNull InteractionResult useWithoutItem(@NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos,
                                                         @NonNull Player player, @NonNull BlockHitResult blockHitResult) {
-        if (!(level.getBlockEntity(blockPos) instanceof ClaimAnchorBlockEntity))
+        if (!(level.getBlockEntity(blockPos) instanceof ClaimAnchorBlockEntity entity))
             return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
 
-        player.displayClientMessage(Component.literal("you used the block"), false);
+        if (entity.claimLand(player.getUUID())) {
+            player.displayClientMessage(Component.literal("you claimed new land"), true);
+            player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
+        } else
+            player.displayClientMessage(Component.literal("this block has already been used"), true);
+
         return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
     }
 }
