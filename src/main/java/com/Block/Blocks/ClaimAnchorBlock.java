@@ -35,14 +35,17 @@ public class ClaimAnchorBlock extends BaseEntityBlock {
     @Override
     protected @NonNull InteractionResult useWithoutItem(@NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos,
                                                         @NonNull Player player, @NonNull BlockHitResult blockHitResult) {
+        if (level.isClientSide())
+            return InteractionResult.SUCCESS;
+
         if (!(level.getBlockEntity(blockPos) instanceof ClaimAnchorBlockEntity entity))
             return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
 
         if (entity.claimLand(player.getUUID())) {
-            player.displayClientMessage(Component.literal("you claimed new land"), true);
+            player.displayClientMessage(Component.literal("you claimed new land"), false);
             player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
         } else
-            player.displayClientMessage(Component.literal("this block has already been used"), true);
+            player.displayClientMessage(Component.literal("this block has already been used"), false);
 
         return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
     }

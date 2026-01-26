@@ -27,6 +27,7 @@ public class ClaimAnchorBlockEntity extends BlockEntity {
             return false;
 
         claim = new Claim(uuid, new AABB(getBlockPos()).inflate(10), new HashSet<>());
+        setChanged();
         return true;
     }
 
